@@ -6,6 +6,7 @@ import base64
 import gzip
 import logging
 import time
+import threading
 UTF8 = 'utf-8'
 
 
@@ -14,7 +15,7 @@ class SpeechRecognitionApi:
     EVENT_FINISH = 'finish'
     EVENT_CLOSE = 'close'
     EVENT_ERROR = 'error'
-
+    TIMEOUT = 2
     logger = None
     logger_handler = None
 
@@ -134,6 +135,9 @@ class SpeechRecognitionApi:
         data['timestamp'] = int(time.time() * 1000)
         self.ws.send(self._pack_meta(data), opcode=websocket.ABNF.OPCODE_BINARY)
 
+    def _on_start(self):
+        self.trigger(self.EVENT_START)
+
     def _on_message(self, message):
         """Callable which is called when websocket received data
         """
@@ -162,7 +166,7 @@ class SpeechRecognitionApi:
                                 on_message = self._on_message,
                                 on_error = self._on_error,
                                 on_close = self._on_close)
-            self.ws.on_open = self.trigger(self.EVENT_START)
+            self.ws.on_open = self._on_start
             self.ws.run_forever()
         except Exception as err:
             self.trigger(self.EVENT_ERROR, err)
@@ -180,7 +184,7 @@ class SpeechRecognitionApi:
         """
         try:
             self.log.debug('send config')
-            
+
             meta = {
                 'deviceid': 'this_is_device_id',
                 'streaming': 1,
@@ -191,7 +195,6 @@ class SpeechRecognitionApi:
                 'data': self._pack_data(data),
                 'end': '0'
             }
-            
             self._send(meta)
         except Exception as err:
             self.trigger(self.EVENT_ERROR, err)
@@ -213,7 +216,7 @@ class SpeechRecognitionApi:
         except Exception as err:
             self.trigger(self.EVENT_ERROR, err)
 
-    def stop(self):
+    def stop(self, timeout=TIMEOUT):
         """last packet indicate speech ends
         """
         try:
@@ -228,10 +231,10 @@ class SpeechRecognitionApi:
         except Exception as err:
             self.trigger(self.EVENT_ERROR, err)
         finally:
-            time.sleep(10)
-            self.log.debug('force close socket')
-            self.close()
-
+            exit_flag = threading.Event()
+            while not exit_flag.wait(timeout=timeout):
+                self.log.debug('force close socket')
+                self.close()
 
     def close(self):
         """close websocket connection and clear resources

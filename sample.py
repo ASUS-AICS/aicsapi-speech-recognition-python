@@ -24,9 +24,6 @@ def start(inst):
     def run(*args):
         with open('test.pcm', 'rb') as f:
             chunk = f.read(CHUNK_SIZE)
-            
-            while (not isinstance(inst.ws.sock, NoneType)) and (not inst.ws.sock.connected):
-                pass
             inst.start(chunk)
             while True:
                 time.sleep(SLEEP_TIME)
@@ -35,7 +32,7 @@ def start(inst):
                     break
                 inst.send(chunk)
             # send last packet
-            inst.stop()
+            inst.stop(1)
     thread.start_new_thread(run, ())
 
 if __name__ == "__main__":
