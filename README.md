@@ -46,6 +46,29 @@ To run this sample:
 $ python sample.py -k <access_token>
 `
 
+expected output is :
+
+```
+2019-07-29 02:56:06,445 - AICS - DEBUG - connect to websocket server
+2019-07-29 02:56:06,894 - AICS - DEBUG - trigger event: start
+2019-07-29 02:56:06,894 - AICS - DEBUG - send config
+2019-07-29 02:56:07,083 - AICS - DEBUG - send audio buffer
+2019-07-29 02:56:07,268 - AICS - DEBUG - send audio buffer
+2019-07-29 02:56:07,455 - AICS - DEBUG - send audio buffer
+2019-07-29 02:56:07,640 - AICS - DEBUG - send audio buffer
+2019-07-29 02:56:07,829 - AICS - DEBUG - send audio buffer
+2019-07-29 02:56:08,017 - AICS - DEBUG - send audio buffer
+2019-07-29 02:56:08,202 - AICS - DEBUG - send audio buffer
+2019-07-29 02:56:08,388 - AICS - DEBUG - send audio buffer
+2019-07-29 02:56:08,577 - AICS - DEBUG - send audio buffer
+2019-07-29 02:56:08,764 - AICS - DEBUG - send audio buffer
+2019-07-29 02:56:08,950 - AICS - DEBUG - send end signal
+2019-07-29 02:56:09,443 - AICS - DEBUG - trigger event: finish
+finish[192][193] : {"result":"[\"測試\"]","operationId":"6924528c-b1ac-11e9-9be8-e54de932855a"}
+
+### closed code : None , reason : None ###
+```
+
 ### Set audio path
 You can set audio path that you wish to transcribe in `start()`
 
