@@ -28,11 +28,6 @@ In order to interact with the AICS speech recognition service via WebSockets, it
     $ pip install -r requirements.txt
     `
 
-## Usage
-`
-$ python sample.py -k <access_token>
-`
-
 ## Quickstart
 To run this sample:
 
@@ -62,6 +57,11 @@ finish[192][193] : {"result":"[\"測試\"]","operationId":"6924528c-b1ac-11e9-9b
 
 ### closed code : None , reason : None ###
 ```
+
+## Usage
+`
+$ python sample.py -k <access_token>
+`
 
 ### Set audio path
 You can set audio path that you wish to transcribe in `start()`
