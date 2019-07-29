@@ -5,7 +5,7 @@ This project consists of a python client that interacts with the AICS speech rec
 
 In order to interact with the AICS speech recognition service via WebSockets, it is necessary to install python, pip and use requirements.txt to install all dependencies in our python project
 
-* Install [Python 2.7 or 3.4+](https://www.python.org/downloads/)
+* Install [Python 3.7+](https://www.python.org/downloads/)
 
 * Install [pip](https://pip.pypa.io/en/stable/)
     - Download [get-pip.py](https://bootstrap.pypa.io/get-pip.py) to a folder on your computer.
@@ -15,17 +15,6 @@ In order to interact with the AICS speech recognition service via WebSockets, it
         `$ python get-pip.py`
 
     - pip is now installed!
-
-* Install [virtualenv](https://virtualenv.pypa.io/) if you do not already have them.
-* Create a virtualenv. Samples are compatible with Python 2.7 and 3.4+.
-
-    `
-    $ virtualenv env
-    `
-
-    `
-    $ source env/bin/activate
-    `
 
 * Clone python-docs-samples and change directory to the sample directory you want to use.
 
@@ -95,7 +84,7 @@ After send last audio chunk, you can get recognition result in `finish()`
 
 ```python
 def finish(inst, msg, dur, early):
-    print('finish[%d][%d] : %s \n' % (dur, early, msg.decode('utf-8')))
+    print('finish[%d][%d] : %s \n' % (dur, early, msg))
 ```
 
 ### Get an API key
