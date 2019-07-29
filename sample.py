@@ -1,5 +1,4 @@
 import time
-from types import NoneType
 from argparse import ArgumentParser
 from aicsapi_speech_recognition import SpeechRecognitionApi
 
@@ -17,7 +16,7 @@ def error(inst, err):
 
 
 def finish(inst, msg, dur, early):
-    print('finish[%d][%d] : %s \n' % (dur, early, msg.decode('utf-8')))
+    print('finish[%d][%d] : %s \n' % (dur, early, msg))
 
 
 def start(inst):
