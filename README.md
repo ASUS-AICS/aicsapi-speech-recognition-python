@@ -28,11 +28,16 @@ In order to interact with the AICS speech recognition service via WebSockets, it
     $ pip install -r requirements.txt
     `
 
+## Usage
+`
+$ python sample.py -k <access_token>
+`
+
 ## Quickstart
 To run this sample:
 
 `
-$ python sample.py -k <access_token>
+$ python sample.py -k limited-demo-access-key
 `
 
 expected output is :
