@@ -7,7 +7,7 @@ In order to interact with the AICS speech recognition service via WebSockets, it
 
 * Install [Python 2.7 or 3.4+](https://www.python.org/downloads/)
 
-* Install pip
+* Install [pip](https://pip.pypa.io/en/stable/)
     - Download [get-pip.py](https://bootstrap.pypa.io/get-pip.py) to a folder on your computer.
     - Open a command prompt and navigate to the folder containing get-pip.py.
     - Run the following command:
