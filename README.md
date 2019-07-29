@@ -5,16 +5,16 @@ This project consists of a python client that interacts with the AICS speech rec
 
 In order to interact with the AICS speech recognition service via WebSockets, it is necessary to install python, pip and use requirements.txt to install all dependencies in our python project
 
-* Install [Python](https://www.python.org/downloads/)
+* Install [Python 2.7 or 3.4+](https://www.python.org/downloads/)
 
-* Install Pip
+* Install pip
     - Download [get-pip.py](https://bootstrap.pypa.io/get-pip.py) to a folder on your computer.
     - Open a command prompt and navigate to the folder containing get-pip.py.
     - Run the following command:
         
         `$ python get-pip.py`
 
-    - Pip is now installed!
+    - pip is now installed!
 
 * Install [virtualenv](https://virtualenv.pypa.io/) if you do not already have them.
 * Create a virtualenv. Samples are compatible with Python 2.7 and 3.4+.
