@@ -22,7 +22,7 @@ In order to interact with the AICS speech recognition service via WebSockets, it
     $ git clone https://github.com/ASUS-AICS/aicsapi-speech-recognition-python.git
     `
 
-* Run the following commands to install the dependencies :
+* Run the following command to install the dependencies :
 
     `
     $ pip install -r requirements.txt
@@ -59,12 +59,16 @@ finish[192][193] : {"result":"[\"測試\"]","operationId":"6924528c-b1ac-11e9-9b
 ```
 
 ## Usage
+You can get subscription keys from the [Speech Recognition Services subscription](https://aicsapi.asus.com/) page.
+
+Use access token that was created from above website and run the following command to get recognition result.
+
 `
 $ python sample.py -k <access_token>
 `
 
 ### Set audio path
-You can set audio path that you wish to transcribe in `start()`
+You can set audio path that you wish to transcribe in `start()`.
 
 ```python
 def start(inst):
@@ -91,6 +95,3 @@ After send last audio chunk, you can get recognition result in `finish()`
 def finish(inst, msg, dur, early):
     print('finish[%d][%d] : %s \n' % (dur, early, msg))
 ```
-
-### Get an API key
-You can get subscription keys from the [Speech Recognition Services subscription](https://aicsapi.asus.com/) page.
