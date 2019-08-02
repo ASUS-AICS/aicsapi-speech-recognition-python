@@ -189,9 +189,6 @@ class SpeechRecognitionApi:
                 'deviceid': 'this_is_device_id',
                 'streaming': 1,
                 'spk': self.user_id,
-                'age': '',
-                'domain': '',
-                'gender': '',
                 'data': self._pack_data(data),
                 'end': '0'
             }
@@ -232,7 +229,7 @@ class SpeechRecognitionApi:
             self.trigger(self.EVENT_ERROR, err)
         finally:
             exit_flag = threading.Event()
-            while not exit_flag.wait(timeout=timeout):
+            if not exit_flag.wait(timeout=timeout) and self.ws.sock is not None:
                 self.log.debug('force close socket')
                 self.close()
 
