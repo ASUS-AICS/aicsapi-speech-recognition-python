@@ -37,7 +37,7 @@ class SpeechRecognitionApi:
         """
         self.callbacks = {}
         self.log = self.getLogger()
-        self.uri = 'wss://aicsapi-speech-generic.azurewebsites.net/v1/speech/recognition/conversation/cognitiveservices'
+        self.uri = 'wss://aicsapi-speech-generic.southeastasia.cloudapp.azure.com/v1/speech/recognition/conversation/cognitiveservices'
 
         if not user_id:
             raise ValueError('user_id must be assigned')
@@ -122,18 +122,11 @@ class SpeechRecognitionApi:
 
         return out.getvalue()
 
-    def _pack_data(self, data):
-        base64_bytes = base64.b64encode(data)
-        return base64_bytes.decode(UTF8)
-
     def _pack_meta(self, meta):
-        packed = base64.b64encode(json.dumps(meta).encode(UTF8))
-        return self._gzip_in_mem(packed)
+        return json.dumps(meta).encode(UTF8)
 
     def _send(self, data):
-        # put timestamp into packet
-        data['timestamp'] = int(time.time() * 1000)
-        self.ws.send(self._pack_meta(data), opcode=websocket.ABNF.OPCODE_BINARY)
+        self.ws.send(self._gzip_in_mem(data), opcode=websocket.ABNF.OPCODE_BINARY)
 
     def _on_start(self):
         self.trigger(self.EVENT_START)
@@ -189,10 +182,11 @@ class SpeechRecognitionApi:
                 'deviceid': 'this_is_device_id',
                 'streaming': 1,
                 'spk': self.user_id,
-                'data': self._pack_data(data),
                 'end': '0'
             }
-            self._send(meta)
+            packedMetaData = self._pack_meta(meta)
+            self._send(packedMetaData)
+            self._send(data)
         except Exception as err:
             self.trigger(self.EVENT_ERROR, err)
 
@@ -204,12 +198,7 @@ class SpeechRecognitionApi:
         """
         try:
             self.log.debug('send audio buffer')
-            meta = {
-                'data': self._pack_data(data),
-                'end': '0'
-            }
-
-            self._send(meta)
+            self._send(data)
         except Exception as err:
             self.trigger(self.EVENT_ERROR, err)
 
@@ -218,12 +207,8 @@ class SpeechRecognitionApi:
         """
         try:
             self.log.debug('send end signal')
-            meta = {
-                'data': '',
-                'end': '1'
-            }
             self.early = int(time.time() * 1000)
-            self._send(meta)
+            self._send(bytes())
             self.begin = int(time.time() * 1000)
         except Exception as err:
             self.trigger(self.EVENT_ERROR, err)
