@@ -19,11 +19,7 @@ class SpeechRecognitionApi:
     logger = None
     logger_handler = None
 
-    def __init__(self
-                , user_id=None
-                , device_id=None
-                , language='chn'
-                , access_key=None):
+    def __init__(self, user_id=None, device_id=None, language='chn', access_key=None):
         """Constructor of SpeechRecognitionApi
 
         Keyword Arguments:
@@ -126,7 +122,8 @@ class SpeechRecognitionApi:
         return json.dumps(meta).encode(UTF8)
 
     def _send(self, data):
-        self.ws.send(self._gzip_in_mem(data), opcode=websocket.ABNF.OPCODE_BINARY)
+        self.ws.send(self._gzip_in_mem(data),
+                     opcode=websocket.ABNF.OPCODE_BINARY)
 
     def _on_start(self):
         self.trigger(self.EVENT_START)
@@ -135,8 +132,9 @@ class SpeechRecognitionApi:
         """Callable which is called when websocket received data
         """
         end = int(time.time() * 1000)
-        self.trigger(self.EVENT_FINISH, message, (end - self.begin), (end - self.early))
-        
+        self.trigger(self.EVENT_FINISH, message,
+                     (end - self.begin), (end - self.early))
+
     def _on_error(self, error):
         """Callable which is called when websocket get error
         """
@@ -145,7 +143,8 @@ class SpeechRecognitionApi:
     def _on_close(self, code, reason):
         """Callable which is called when websocket closed the connection
         """
-        print("### closed code : " + str(code) + " , reason : " + str(reason) + " ###")
+        print("### closed code : " + str(code) +
+              " , reason : " + str(reason) + " ###")
 
     def connect(self):
         """Connect to speech recognition endpoint with authentication header.
@@ -155,10 +154,10 @@ class SpeechRecognitionApi:
             self.log.debug('connect to websocket server')
             websocket.enableTrace(False)
             websocket.setdefaulttimeout(2)
-            self.ws = websocket.WebSocketApp(self.uri,header=['Ocp-Apim-Subscription-Key: %s' % self.access_key],
-                                on_message = self._on_message,
-                                on_error = self._on_error,
-                                on_close = self._on_close)
+            self.ws = websocket.WebSocketApp(self.uri, header=['Ocp-Apim-Subscription-Key: %s' % self.access_key],
+                                             on_message=self._on_message,
+                                             on_error=self._on_error,
+                                             on_close=self._on_close)
             self.ws.on_open = self._on_start
             self.ws.run_forever()
         except Exception as err:
